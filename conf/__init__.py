@@ -17,12 +17,15 @@ def is_valid_openai_key(api_key):
 
 # 设置代理
 openai.proxy = "http://127.0.0.1:7890"
+
 # 设置oepnai的密钥
-openai_api_key = os.getenv("OPENAI_APIKEY")
+openai_api_key = os.getenv("OPENAI_API_KEY")
+if openai_api_key:
+    openai.api_key = openai_api_key
 
 # print("成功设置代理和密钥")
 # 如果没有找到密钥，终止程序并报错
-if not openai_api_key:
+elif not openai_api_key:
     if is_valid_openai_key(constants_conf.OPENAI_API_KEY):
         openai_api_key = constants_conf.OPENAI_API_KEY
     else:
