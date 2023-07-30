@@ -54,7 +54,7 @@ def chat(content):
         {"role": "user", "content": content}
     ]
     response1 = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model="gpt-3.5-turbo",
         messages=messages,
         functions=functions,
         function_call="auto"
