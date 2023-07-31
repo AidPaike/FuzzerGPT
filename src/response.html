@@ -1,0 +1,563 @@
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<!--SS_BEGIN_SNIPPET(fragment46,head_tags)-->
+<meta name="Keywords" content="java bug reports">
+<meta name="robots" content="INDEX, FOLLOW">
+<meta name="country" content="USA">
+<meta name="Language" content="en">
+<LINK REL="SHORTCUT ICON" HREF="images/header/favicon.ico"/>    
+<!--SS_END_SNIPPET(fragment46,head_tags)-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width"/>
+
+<meta name="description" content="Component: hotspot | Sub-Component: compiler"/>
+<!-- Insert dynamic title value with Bug-ID and corresponding Synopsis -->
+
+<title>Bug ID: JDK-8212070 Introduce diagnostic flag to abort VM on failed JIT compilation</title>
+
+<script language="JavaScript"
+	src="/bugdatabase/bugdatabase-theme/js/jquery.min.js"></script>
+<script language="JavaScript"
+	src="/bugdatabase/bugdatabase-theme/js/bootstrap.min.js"></script>
+<script language="JavaScript"
+	src="/bugdatabase/bugdatabase-theme/js/bugsView.js"></script>
+<script language="JavaScript"
+	src="/bugdatabase/bugdatabase-theme/js/bugsDetails.js"></script>	
+<script language="JavaScript"
+	src="/bugdatabase/bugdatabase-theme/js/truste-oraclelib.js"></script>
+<script async="async" type="text/javascript"
+	src='//consent.truste.com/notice?domain=oracle.com&c=teconsent&js=bb&noticeType=bb&text=true&cdn=1&pcookie&gtm=1'
+	crossorigin></script>
+<script type="text/javascript">
+if ( (oracle.truste.api.getGdprConsentDecision().consentDecision) &&
+	     (oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(0) != -1 ||
+		 oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(2) != -1 ||
+	      oracle.truste.api.getGdprConsentDecision().consentDecision.indexOf(3) != -1) ) { 
+	document.write('<script type="text/javascript" async src="https://c.oracleinfinity.io/acs/account/wh3g12c3gg/js/javabugs/odc.js?_ora.context=analytics:production">' +
+		    '<\/script>');
+}
+</script>
+
+<link href="/bugdatabase/bugdatabase-theme/css/header.css"
+	type="text/css" rel="stylesheet" />
+<link href="/bugdatabase/bugdatabase-theme/css/home.css"
+	type="text/css" rel="stylesheet" />
+<link href="/bugdatabase/bugdatabase-theme/css/footer.css"
+	type="text/css" rel="stylesheet" />
+<link href="/bugdatabase/bugdatabase-theme/css/bugsui.css"
+	type="text/css" rel="stylesheet" />
+<!-- <link href="/bugdatabase/bugdatabase-theme/css/faq.css"
+	type="text/css" rel="stylesheet" />	 -->	
+
+<script >bazadebezolkohpepadr="1345456960"</script><script type="text/javascript" src="https://bugs.java.com/akam/13/5032098d"  defer></script></head>
+<body>
+	<div class="container">
+
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#common-navbar-collapse"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="https://bugs.java.com"><img
+					alt="Oracle Java Bug Database"
+					src="/bugdatabase/bugdatabase-theme/images/header/bugs-logo.png"></a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="common-navbar-collapse">
+				<form class="nav navbar-nav navbar-form navbar-right"
+					name="searchForm"  method="get"
+					action="https://www.oracle.com/search/results" target="_blank" onsubmit="return runSearchBar();">
+					<!-- Navbar Search with category=bugs -->
+					<input type="hidden" name="cat" value="bugs" /> <input
+						type="hidden" name="Ntk" value="S3" />
+					<div class="input-group">
+						<input type="text" class="form-control" name="Ntt"
+						maxlength="100"	placeholder="Search" title="Search Java bugs" /> <span
+							class="input-group-btn">
+							<button type="submit" style="margin-top: -2px;"
+								class="btn btn-mini glyphicon glyphicon-search"></button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<!-- End of navbar-collapse -->
+
+		</div>
+		<!-- End of container --> </nav>
+
+<ul class="breadcrumbs">
+<li><a href="https://www.oracle.com/technetwork/index.html" target="_blank">Oracle Technology Network</a></li>
+<li><a href="https://www.oracle.com/technetwork/java/index.html" target="_blank">Java</a></li>
+<li><a href="https://www.oracle.com/technetwork/java/javase/index.html" target="_blank">Java SE</a></li>
+<li><a href="https://www.oracle.com/technetwork/java/javase/community/index.html" target="_blank">Community</a></li>
+<li class="current">Bug Database</li>
+</ul> <!-- End of class="breadcrumbs"-->
+ 
+   
+
+<div class="titleHeader">JDK-8212070 :  Introduce diagnostic flag to abort VM on failed JIT compilation</div>
+
+
+<div class="section row">
+
+    <div class="subsection col-md-4">                                                   
+        <!-- text block -->
+        <ul class="detailsTable">
+			
+			 <li><span class="boldText">Type:</span> <span class="detailsText">Enhancement</span></li>  
+				<!-- Backport Need to Include -->
+                
+            <li><span class="boldText">Component:</span> <span class="detailsText">hotspot</span></li>
+                
+            <li><span class="boldText">Sub-Component:</span> <span class="detailsText">compiler</span>
+                
+            </li>
+            
+            
+            <li><span class="boldText">Affected Version:</span> <span class="detailsText">8,11,12 </span></li>
+                                      
+        </ul>
+    </div>
+
+<div class="subsection col-md-4">                                                   
+<!-- text block -->
+<ul class="detailsTable">
+    <li><span class="boldText">Priority:</span> <span class="detailsText">P4</span></li>
+    <li><span class="boldText">Status:</span> <span class="detailsText">Resolved</span></li>
+        
+    <li><span class="boldText">Resolution:</span> <span class="detailsText">Fixed</span></li>
+        
+        
+
+    
+    </li>
+
+    
+</ul>
+</div>
+<div class="subsection col-md-4">                                                   
+<!-- text block -->
+<ul class="detailsTable">
+<li><span class="boldText">Submitted:</span> <span class="detailsText">2018-10-11</span>  
+<li><span class="boldText">Updated:</span> <span class="detailsText">2020-11-16</span>
+
+<li><span class="boldText">Resolved:</span> <span class="detailsText">2018-11-19</span> 
+
+</li>
+</ul>
+</div>
+</div>
+
+<!-- ppppp -->
+
+
+
+<div class="sectionTitle">
+    <label> Versions (Unresolved/Resolved/Fixed)</label>
+    <div class="bscTooltip">
+        <span class="glyphicon glyphicon-info-sign versionInfoTooltip"></span>
+        <span class="bscTooltiptext" style="width: 350px !important;">The Version table provides details related to the release that this issue/RFE will be addressed.<br><br>
+                    <strong>Unresolved</strong> : Release in which this issue/RFE will be addressed.<br><strong>Resolved</strong>: Release in which this issue/RFE has been resolved.<br>
+                            <strong>Fixed</strong> : Release in which this issue/RFE has been fixed. The release containing this fix may be available for download as an Early Access Release or a General Availability Release.
+                            <br><br> To download the current JDK release, click <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">here</a>. </span>
+                                    </div>
+                                    </div>
+                                    <div class="section row"> <div class="subsection col-md-3">                                                   
+                                            <!-- text block -->
+                                            <table class="versionTable">
+                                                <thead class="versionTableHeader">
+                                                    <tr>
+                                                        
+                                                        <th>JDK 11</th>
+                                                            
+                                                        <th>JDK 12</th>
+                                                            
+                                                        <th>Other</th>
+                                                            
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        
+                                                        <td ><span class="versionTableVal">11.0.3</span><span class="label round label-success">Fixed </span></td>
+                                                            
+                                                        <td ><span class="versionTableVal">12&nbsp;b21</span><span class="label round label-success">Fixed </span><a  href="https://www.oracle.com/java/technologies/javase-jdk15-downloads.html?msgid=bugsview15" target="_blank"> <img src="/bugdatabase/bugdatabase-theme/images/download.gif"/></a></td>
+                                                            
+                                                        <td ><span class="versionTableVal">openjdk8u282</span><span class="label round label-success">Fixed </span></td>
+                                                            
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    
+                                    
+
+
+<div class="sectionTitle">Related Reports</div>
+<table>
+
+<tr>
+<td>
+<div class="boldText" >Relates : &nbsp;</div>
+</td>
+<td align="left">
+<div class="bugLink" ><a href="view_bug?bug_id=8213992">JDK-8213992 - Rename and make DieOnSafepointTimeout the diagnostic option </a></div>
+</td>
+</tr>
+        
+</table>
+
+
+
+<div class="sectionTitle">Description</div>
+<div class="section row"> <div class="subsection col-md-12"><div class="descriptionText"><span id="linkDescriptionText"><PRE >http://mail.openjdk.java.net/pipermail/hotspot-compiler-dev/2018-October/030915.html
+
+Aleksey:
+I want to run our performance tests with usual compiler configuration, and make VM fail if/when we fail to compile the method for some reason -- probably due to VM bugs -- instead of silently regressing performance, and leaving me scratching my head what had happened. This might be of interest for high-performance users too, if they want to treat current  graceful degradation as error condition instead.
+
+This is similar to CompileTheWorld, except it does normal compilation with usual profiling and optimization, basically running in the mode we would expect production to run.
+
+Vladimir:
+Okay, in such case I would suggest to make general (not Shenandoah specific) diagnostic flag similar to AbortVMOnException flag. Something like AbortVMOnCompileFailure. And code should by in CompileBroker::post_compile(). 
+
+EDIT: The final option name is -XX:+AbortVMOnCompilationFailure.
+</PRE></span></div></div></div>
+
+
+<div class="sectionTitle">Comments</div>
+<div class="section row">
+<div class="subsection col-md-12">  
+<table border="0" cellpadding="0" cellspacing="0" align="TOP" width="100%">
+<tr><td valign="top" align="left">
+<table align="left" bgcolor="#ffffff" border="0" cellpadding="5" cellspacing="2" width="100%">         <tbody>
+                        
+<tr><td align="left" width="80" class="grey5">
+<div class="descriptionText"><span id="linkCommentText">Nice that the lack of JDK-8136421&#039;s refactoring actually makes this easier. I presume the same was the case for backporting JFR (JDK-8199712)</span></div>
+</td></tr>
+<tr><td align="right" width="80" class="grey5">
+<div class="commentDate">
+22-10-2020 
+</div><hr>
+</td></tr>
+                        
+<tr><td align="left" width="80" class="grey5">
+<div class="descriptionText"><span id="linkCommentText">Fix Request (8u)
+
+Same reason as for 11u. Patch is even simpler for 8u (acked by stuefe and phh): https://mail.openjdk.java.net/pipermail/jdk8u-dev/2020-October/012792.html. Passes tier1 with the patch, and shows up new interesting failures with flag enabled.</span></div>
+</td></tr>
+<tr><td align="right" width="80" class="grey5">
+<div class="commentDate">
+14-10-2020 
+</div><hr>
+</td></tr>
+                        
+<tr><td align="left" width="80" class="grey5">
+<div class="descriptionText"><span id="linkCommentText">Fix Request
+
+This diagnostic option is useful to diagnose compiler-failure types of performance troubles. The option is diagnostic, so risk is low. It would be good to have it in 11, where most users would end up to be.</span></div>
+</td></tr>
+<tr><td align="right" width="80" class="grey5">
+<div class="commentDate">
+28-11-2018 
+</div><hr>
+</td></tr>
+                        
+<tr><td align="left" width="80" class="grey5">
+<div class="descriptionText"><span id="linkCommentText">Webrev: http://cr.openjdk.java.net/~shade/8212070/webrev.01/
+
+Ran tier1 for fun, these are the tests that would fail if we turn the option on. It seems -Xcomp makes ~40 tests blow the code cache on tier3. Also, there are some &#034;Never compilable: out of nodes parsing method&#034; for the tests that are supposed to compile fine?
+
+$ CONF=linux-x86_64-server-fastdebug make images run-test TEST=jtreg:test/hotspot/jtreg:tier1 TEST_VM_OPTS=&#034;-XX:+UnlockDiagnosticVMOptions -XX:+AbortVMOnCompileFailure&#034;
+
+# fatal: Not compilable on level 1: CodeBuffer overflow
+compiler/c1/TestLinearScanOrderMain.java: 
+
+# fatal: Not compilable on level 3: CodeBuffer overflow
+compiler/arraycopy/TestReduceBulkZeroingDisabled.java
+compiler/c1/Test6756768.java
+compiler/c1/Test6756768_2.java
+compiler/c1/Test6757316.java
+compiler/c1/Test7042153.java
+compiler/c1/Test7123108.java
+compiler/c1/Test8004051.java
+compiler/c2/Test6877254.java
+compiler/c2/Test7125879.java
+compiler/c2/cr6663854/Test6663854.java
+compiler/c2/cr6711117/Test.java
+compiler/c2/cr6712835/Test6712835.java
+compiler/c2/cr6714694/Tester.java
+compiler/codegen/Test6875866.java
+compiler/codegen/Test6935535.java
+compiler/codegen/Test8005033.java
+compiler/cpuflags/TestSSE4Disabled.java
+compiler/escapeAnalysis/Test6895383.java
+compiler/escapeAnalysis/Test6896727.java
+compiler/escapeAnalysis/cr6716441/Tester.java
+compiler/floatingpoint/TestFloatJNIArgs.java
+compiler/interpreter/cr7116216/StackOverflow.java
+compiler/jsr292/methodHandleExceptions/TestAMEnotNPE.java
+compiler/loopopts/TestSplitIfBlocksDisabled.java
+compiler/memoryinitialization/ZeroTLABTest.java 
+compiler/runtime/Test6859338.java
+compiler/runtime/criticalnatives/argumentcorruption/CheckLongArgs.java
+compiler/runtime/criticalnatives/lookup/LookUp.java
+gc/epsilon/CriticalNativeArgs.java
+gc/epsilon/CriticalNativeStress.java
+gc/epsilon/TestByteArrays.java
+gc/epsilon/TestManyThreads.java
+gc/epsilon/TestObjects.java
+gc/epsilon/TestRefArrays.java
+gc/g1/TestJNIWeakG1/TestJNIWeakG1.java
+runtime/CreateMirror/ArraysNewInstanceBug.java
+runtime/Nestmates/membership/TestNestmateMembership.java
+runtime/Nestmates/privateConstructors/TestInvokeSpecial.java
+runtime/exceptionMsgs/ArrayIndexOutOfBoundsException/ArrayIndexOutOfBoundsExceptionTest.java
+runtime/jni/ReturnJNIWeak/ReturnJNIWeak.java
+
+# fatal: Not compilable on level 3: osr entry must have been visited for osr compile
+compiler/c1/Test8172751.java
+
+# fatal: Never compilable: out of nodes parsing method
+compiler/c2/Test8062950.java 
+compiler/c2/TestSignedByteCompare.java
+compiler/c2/TestUnsignedByteCompare.java
+
+# fatal: Not compilable on level 4: exception throw
+compiler/jvmci/compilerToVM/IsCompilableTest.java
+compiler/jvmci/events/JvmciNotifyInstallEventTest.java
+
+# fatal: Not compilable on level 4: no compiler configured
+compiler/jvmci/events/JvmciNotifyBootstrapFinishedEventTest.java
+
+# fatal: Never compilable: infinite loop
+compiler/loopopts/StoreMovedBeforeInfiniteLoop.java
+
+# fatal: Never compilable: out of nodes before macro expansion
+compiler/loopopts/TestOverunrolling.java: Tests correct dominator information after over-unrolling a loop.</span></div>
+</td></tr>
+<tr><td align="right" width="80" class="grey5">
+<div class="commentDate">
+15-11-2018 
+</div><hr>
+</td></tr>
+                        
+<tr><td align="left" width="80" class="grey5">
+<div class="descriptionText"><span id="linkCommentText">Yes, it could be done. But the issue here is we don&#039;t know which method compilation will fail.
+We can introduce an other flag similar to AbortVMOnExceptionMessage where a message could be specified on which to abort.</span></div>
+</td></tr>
+<tr><td align="right" width="80" class="grey5">
+<div class="commentDate">
+11-10-2018 
+</div><hr>
+</td></tr>
+                        
+<tr><td align="left" width="80" class="grey5">
+<div class="descriptionText"><span id="linkCommentText">to make it more useful, I think it makes sense to have AbortVMOnCompileFailure settable via compiler control directives. in that case, users will be able to choose what failed compilations should be treated as errors.</span></div>
+</td></tr>
+<tr><td align="right" width="80" class="grey5">
+<div class="commentDate">
+11-10-2018 
+</div><hr>
+</td></tr>
+
+</tbody></table>
+</td></tr>
+</table>
+</div>
+</div>
+
+
+<br/><br/>
+
+
+
+
+
+
+<!-- pppppppp -->
+
+    </div>
+
+<style>
+/*CSS for Social-icons*/
+.footer-icon, .footer-icon ul {
+	text-align: right;
+	padding-right: 0px;
+	margin-right: 0px;
+}
+
+.footer-icon ul li {
+	list-style: none;
+	display: inline;
+}
+
+.footer-icon img.social-icon {
+	width: 17px;
+	height: 16px;
+	margin-left: 4px;
+	background-image:
+		url(/bugdatabase/bugdatabase-theme/images/footer/social-icons.png);
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+
+.footer-icon img.social-icon.facebook {
+	background-position: -163px 0;
+}
+
+.footer-icon img.social-icon.facebook:hover {
+	background-position: -183px 0;
+}
+
+.footer-icon img.social-icon.linkedin {
+	background-position: -203px 0;
+}
+
+.footer-icon img.social-icon.linkedin:hover {
+	background-position: -223px 0;
+}
+
+.footer-icon img.social-icon.twitter {
+	background-position: -243px 0;
+}
+
+.footer-icon img.social-icon.twitter:hover {
+	background-position: -263px 0;
+}
+
+.footer-icon img.social-icon.googleplus {
+	background-position: -43px 0;
+}
+
+.footer-icon img.social-icon.googleplus:hover {
+	background-position: -63px 0;
+}
+
+.footer-icon img.social-icon.youtube {
+	background-position: -123px 0;
+}
+
+.footer-icon img.social-icon.youtube:hover {
+	background-position: -143px 0;
+}
+
+.footer-icon img.social-icon.rss {
+	background-position: -283px 0;
+}
+
+.footer-icon img.social-icon.rss:hover {
+	background-position: -303px 0;
+}
+</style>
+
+		<footer class="footer">
+
+		<div class="container">
+			<div class="col-md-12">
+				<!--Footer Row-->
+				<div class="row">
+					<h1 class="oracle-tag">
+						<a href="https://www.oracle.com/us/corporate/index.html"><span><img
+								src="/bugdatabase/bugdatabase-theme/images/footer/oracle-tagline.png" /></span></a>
+					</h1>
+					<!--Column-1-->
+					<div class="col-md-8 footer-link">
+						<ul>
+							<li><a
+								href="https://www.oracle.com/us/syndication/subscribe/index.html"
+								target="_blank">Subscribe</a></li>
+							<li><a href="https://www.oracle.com/us/corporate/index.html"
+								target="_blank">About Oracle</a></li>
+							<li><a
+								href="https://www.oracle.com/us/corporate/careers/index.html"
+								target="_blank">Careers</a></li>
+							<li><a
+								href="https://www.oracle.com/us/corporate/contact/index.html"
+								target="_blank">Contact Us</a></li>
+							<li><a href="https://www.oracle.com/us/sitemaps/index.html"
+								target="_blank">Site Maps</a></li>
+							<li><a href="https://www.oracle.com/us/legal/index.html"
+								target="_blank">Legal Notices</a></li>
+							<li><a
+								href="https://www.oracle.com/us/legal/terms/index.html"
+								target="_blank">Terms of Use</a></li>
+							<li><a
+								href="https://www.oracle.com/us/legal/privacy/index.html"
+								target="_blank">Your Privacy Rights</a></li>
+							<li><span id='teconsent'></span></li>
+						</ul>
+					</div>
+
+					<!--Column-2-->
+					<div class="col-md-4 footer-icon">
+						<ul>
+							<li><a
+								href="https://www.oracle.com/us/social-media/facebook/index.html"
+								title="Oracle on Facebook" target="_blank"><img
+									alt="Facebook" border="0" class="social-icon facebook"
+									src="/bugdatabase/bugdatabase-theme/images/footer/spacer.gif"></a>
+							</li>
+							<li><a data-lbl="linkedin"
+								href="https://www.oracle.com/us/social-media/linkedin/index.html"
+								target="_blank"><img alt="Linked In" border="0"
+									class="social-icon linkedin"
+									src="/bugdatabase/bugdatabase-theme/images/footer/spacer.gif"></a></li>
+							<li><a data-lbl="twitter"
+								href="https://www.oracle.com/us/social-media/twitter/index.html"
+								target="_blank"><img alt="Twitter" border="0"
+									class="social-icon twitter"
+									src="/bugdatabase/bugdatabase-theme/images/footer/spacer.gif"></a></li>
+							<li><a data-lbl="googleplus"
+								href="https://plus.google.com/u/0/115607918987921226255"
+								target="_blank"><img alt="Google+" border="0"
+									class="social-icon googleplus"
+									src="/bugdatabase/bugdatabase-theme/images/footer/spacer.gif"></a></li>
+							<li><a data-lbl="youtube"
+								href="https://www.youtube.com/oracle/" target="_blank"><img
+									alt="YouTube" border="0" class="social-icon youtube"
+									src="/bugdatabase/bugdatabase-theme/images/footer/spacer.gif"></a></li>
+							<li><a data-lbl="rssfeeds"
+								href="https://www.oracle.com/us/syndication/feeds/index.html"
+								target="_blank"><img alt="RSS Feeds" border="0"
+									class="social-icon rss"
+									src="/bugdatabase/bugdatabase-theme/images/footer/spacer.gif"></a></li>
+						</ul>
+					</div>
+					<!-- End of Col2 -->
+
+					<!-- html for Go Top-->
+					<div>
+						<a id="scroll-top" class="hide" href="#"><i
+							class="glyphicon glyphicon-chevron-up"></i></a>
+					</div>
+
+				</div>
+				<!-- End of Col -->
+			</div>
+			<!-- End of Row -->
+		</div>
+		<!--End of class="container"--> </footer>
+<noscript><img src="https://bugs.java.com/akam/13/pixel_5032098d?a=dD0yMDA3N2FjYzgwOWY5ODdjNzY3Mjk3NTI4ZjlmZDJhMDM2MWVjMzAxJmpzPW9mZg==" style="visibility: hidden; position: absolute; left: -999px; top: -999px;" /></noscript></body>   

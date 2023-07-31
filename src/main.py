@@ -1,4 +1,10 @@
 from langchain.chat_models import ChatOpenAI
+from langchain.chains import LLMChain, SequentialChain
+from langchain.agents import initialize_agent, AgentType, Tool
+from langchain.prompts import ChatPromptTemplate
+from src.fuzz_utils.tool_crawler import get_bugreport
+from src.fuzz_utils.tool_prompt import get_generate_template
+
 # 在conf中设置了代理和密钥
 from conf import fuzzgpt_globals
 
@@ -13,33 +19,28 @@ import 推荐方法
 尽可能避免import *
 '''
 
-
-
-
 if __name__ == '__main__':
-    template_string = """
-    Translate the text that is delimited by triple backticks into a style that is {style}.\
-    text: '''{text}'''
-    """
-    prompt_template = ChatPromptTemplate.from_template(template=template_string)
-    print(prompt_template.messages[0].prompt.input_variables)
-    customer_style = """
-    American English in a calm and respectful tone
-    """
-    customer_email = """
-    Arrr, i be fuming that me blender lid \
-    flew off and splattered me kitchen walls \
-    with smoothie! And to make matters worse, \
-    the warranty don't cover the cost of \
-    cleaning up me kitchen. I need yer help \
-    reight now, matey!                                                                                   
-    """
-    customer_messages = prompt_template.format_messages(
-        style=customer_style,
-        text=customer_email
+    # 定义llm
+    llm = ChatOpenAI(temperature=0)
+
+    generate_chain = LLMChain(llm=llm, prompt=get_generate_template())
+
+    generate_tool = Tool(
+        name='Generate java test cases code Model',
+        func=generate_chain.run,
+        description='Use this tool to generate java test cases that trigger bug reports'
     )
-    print(type(customer_messages))
-    print(type(customer_messages[0]))
-    print(customer_messages)
-    customer_response = chat(customer_messages)
-    print(customer_response.content)
+
+    agent = initialize_agent(
+        [generate_tool, get_bugreport],
+        llm,
+        agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+        handle_parsing_errors=True,
+        verbose=True)
+    try:
+        result = agent(
+            "please get https://bugs.java.com/bugdatabase/view_bug?bug_id=8212070 content and generate test case based on this report"
+        )
+        print(result)
+    except:
+        print("exception on external access")
