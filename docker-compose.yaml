@@ -6,34 +6,30 @@ services:
     image: mongo
     container_name: shannonfuzz_mongodb_fzy #docker容器的名字
     restart: always
-#    command: [--auth] # 指定需要认证，mongdb默认是无认证的
+    ports: #容器运行的端口号和对应的容器内部的端口号
+      - "27017:27017"
+    volumes: # 数据持久化
+      - mongodb-share:/data/db/
+      - ./mongodb/log/:/var/log/mongodb
+    command: [ --auth ] # 指定需要认证，mongdb默认是无认证的
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: shannonfuzz
       MONGO_USERNAME: aidpaike
       MONGO_PASSWORD: 123456
       TZ: Asia/Shanghai
-    ports: #容器运行的端口号和对应的容器内部的端口号
-      - "27017:27017"
-    volumes: # 数据持久化
-      - ./db/mongodb/datadir:/data/db
-      - ./db/mongodb/initdb:/dcatocker-entrypoint-initdb.d
-      - ./db/mongodb/configdb:/data/configdb
-      - ./mongodb/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
-      - ./mongodb/log/:/var/log/mongodb
 
-#
-#  mongo-express:
-#    image: mongo-express
-#    container_name: shannonfuzz_mongo_express_fzy #docker容器的名字
-#    restart: always
-#    ports:
-#      - "80:8081"
-#    environment:
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
-#      ME_CONFIG_MONGODB_URL: mongodb://root:123456@127.0.0.1:27017/
+  mongo-express:
+    image: mongo-express
+    container_name: shannonfuzz_mongo_express_fzy #docker容器的名字
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+      ME_CONFIG_MONGODB_URL: "mongodb://admin:123456@mongo:27017/"
 
-#  shannon-fuzz:
-#    image:
+volumes:
+  mongodb-share:
