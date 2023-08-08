@@ -36,7 +36,7 @@ if __name__ == '__main__':
         llm,
         agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
         handle_parsing_errors=True,
-        verbose=True)
+        verbose=False)
     try:
         result = agent(
             "please get https://bugs.java.com/bugdatabase/view_bug?bug_id=8212070 content and generate test case based on this report"
